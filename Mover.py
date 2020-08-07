@@ -7,7 +7,7 @@ class Mover():
         self.password = password
         self.hash_dict = {}
 
-    def encrypt(self, path):
+    def _encrypt(self, path):
         dir_path, filename = os.path.split(path)
         dst_path = os.path.join(dir_path.replace(self.EOD_path, self.OD_path), filename + ".encrypted")
         with open(path, "rb") as file:
@@ -26,7 +26,7 @@ class Mover():
         self.hash_dict[src_hash] = dst_hash
         return dst_path
 
-    def decrypt(self, path):
+    def _decrypt(self, path):
         dir_path, filename = os.path.split(path)
         dst_path = os.path.join(dir_path.replace(self.OD_path, self.EOD_path), filename[:-10])
         with open(path, "rb") as src_file:
@@ -58,9 +58,9 @@ class Mover():
             hash = i[1]
             try:
                 if hash not in self.hash_dict.keys():
-                    print(self.encrypt(file_path))
+                    print(self._encrypt(file_path))
                 elif self.hash_dict[hash] not in OD_file_hash.values():
-                    print(self.encrypt(file_path))
+                    print(self._encrypt(file_path))
             except Exception as e:
                 print(e)
 
@@ -101,7 +101,7 @@ class Mover():
             hash = i[1]
             try:
                 if get_key(self.hash_dict, hash) not in EOD_file_hash.values():
-                    print(self.decrypt(file_path))
+                    print(self._decrypt(file_path))
             except Exception as e:
                 print(e)
 
