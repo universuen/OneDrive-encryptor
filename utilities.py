@@ -2,9 +2,9 @@ import os
 import getpass
 import pickle
 import shutil
+from hashlib import sha1
 
 
-# Get all files and directories' paths
 def get_content(path):
     """
     Get file list and directory list of the given path
@@ -18,9 +18,23 @@ def get_content(path):
             file_list.append(os.path.join(root, name))
         for name in dirs:
             dir_list.append(os.path.join(root, name))
-    print(file_list)
-    print(dir_list)
     return (file_list, dir_list)
+
+
+def get_file_hash(file_path_list):
+    """
+    Get hashes of all files in the given list
+    :param file_path_list: list
+    :return: dictionary {file path: hash}
+    """
+    file_hash = {}
+    for file_path in file_path_list:
+        try:
+            with open(file_path, "rb") as file:
+                file_hash[file_path] = sha1(file.read()).hexdigest()
+        except Exception as e:
+            print(e)
+    return file_hash
 
 
 def make_dir(OD_name):
@@ -36,5 +50,8 @@ def make_dir(OD_name):
         os.makedirs(EOD_path)
     return EOD_path, OD_path
 
-if __name__ == '__main__':
-    encrypt("C:\\Users\\SOBER\\Downloads\\hhh.torrent", "123456")
+
+def get_key(dict, value):
+    for item in dict.items():
+        if item[1] == value:
+            return item[0]
