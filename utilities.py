@@ -3,6 +3,8 @@ import getpass
 import pickle
 import shutil
 from hashlib import sha1
+import ctypes, sys
+from PyQt5.QtCore import pyqtSignal
 
 
 def get_content(path):
@@ -64,3 +66,10 @@ def get_key(dict, value):
     for item in dict.items():
         if item[1] == value:
             return item[0]
+
+
+def is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        return False

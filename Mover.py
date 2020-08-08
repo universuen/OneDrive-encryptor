@@ -1,4 +1,5 @@
 from utilities import *
+from UI import MainWindow
 
 
 class Mover():
@@ -60,8 +61,10 @@ class Mover():
             hash = i[1]
             try:
                 if hash not in self.hash_dict.keys():
+                    # MainWindow.my_signal.emit(file_path)
                     print(self._encrypt(file_path))
                 elif self.hash_dict[hash] not in OD_file_hash.values():
+                    # MainWindow.my_signal.emit(file_path)
                     print(self._encrypt(file_path))
             except Exception as e:
                 print(e)
@@ -82,7 +85,10 @@ class Mover():
         for OD_dir in OD_dir_list:
             EOD_dir = OD_dir.replace(self.OD_path, self.EOD_path)
             if not os.path.exists(EOD_dir):
-                shutil.rmtree(OD_dir)
+                try:
+                    shutil.rmtree(OD_dir)
+                except Exception as e:
+                    print(e)
 
     def update_local_files(self):
         # preparation
@@ -124,3 +130,6 @@ class Mover():
             OD_dir = EOD_dir.replace(self.EOD_path, self.OD_path)
             if not os.path.exists(OD_dir):
                 shutil.rmtree(EOD_dir)
+
+    def open_folder(self):
+        os.system("start explorer %s" % self.EOD_path)
