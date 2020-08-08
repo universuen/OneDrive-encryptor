@@ -3,8 +3,9 @@ OneDrive provides 1TB free storage for students, which is much bigger than 5GB f
 ## Usage
 After the first running, there will appear a directory called "E-OneDrive" in your user directory.You can use it in the same way you use OneDrive, and you can use the following methods to handle you files.
 
-```Mover.update_online_files```is used to encrypt and upload local files.
++ ```Mover.update_online_files```is used to encrypt and upload local files.
 
-```Mover.update_local_files```is used to download and decrypt online files.
++ ```Mover.update_local_files```is used to download and decrypt online files.
 ## Attention
-Run this program as administrator.
++ If you don't set the password at the first time you run this program, there will be a random password generated. Do remember the password as there is no way to change your password in your subsequent use.
++ Run this program as administrator.
