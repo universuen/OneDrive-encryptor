@@ -78,7 +78,7 @@ class Ui_MainWindow(object):
         self.textBrowser.setGeometry(QtCore.QRect(110, 10, 271, 91))
         font = QtGui.QFont()
         font.setFamily("Microsoft YaHei UI")
-        font.setPointSize(10)
+        font.setPointSize(9)
         self.textBrowser.setFont(font)
         self.textBrowser.setObjectName("textBrowser")
         MainWindow.setCentralWidget(self.centralwidget)

@@ -4,7 +4,7 @@ import pickle
 import shutil
 from hashlib import sha1
 import ctypes, sys
-from PyQt5.QtCore import pyqtSignal
+import time
 
 
 def get_content(path):
@@ -73,3 +73,22 @@ def is_admin():
         return ctypes.windll.shell32.IsUserAnAdmin()
     except:
         return False
+
+def get_mover(login, mover, window):
+    mover.OD_name = login.name
+    mover.password = login.lineEdit.text()
+    mover.make_dir()
+    window.show()
+    login.close()
+
+class Message():
+
+    message = ["Ready"]
+
+    def set(self, text):
+        self.message[0] = text
+
+    def get(self):
+        return self.message[0]
+
+

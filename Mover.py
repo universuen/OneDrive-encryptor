@@ -1,14 +1,19 @@
 from utilities import *
-from UI import MainWindow
 
 
 class Mover():
-    def __init__(self, OD_name, password):
+
+    def __init__(self, OD_name="OneDrive", password="000000"):
         if password == '':
             password = '000000'
-        self.EOD_path, self.OD_path = make_dir(OD_name)
+        self.OD_name = OD_name
+        self.EOD_path = None
+        self.OD_path = None
         self.password = password
         self.hash_dict = {}
+
+    def make_dir(self):
+        self.EOD_path, self.OD_path = make_dir(self.OD_name)
 
     def _encrypt(self, path):
         dir_path, filename = os.path.split(path)
@@ -48,6 +53,7 @@ class Mover():
         EOD_file_hash = get_file_hash(EOD_file_list)
         OD_file_list, OD_dir_list = get_content(self.OD_path)
         OD_file_hash = get_file_hash(OD_file_list)
+        message = Message()
 
         # update OD directories
         for EOD_dir in EOD_dir_list:
@@ -61,10 +67,10 @@ class Mover():
             hash = i[1]
             try:
                 if hash not in self.hash_dict.keys():
-                    # MainWindow.my_signal.emit(file_path)
+                    message.set("Uploading...<br>" + file_path)
                     print(self._encrypt(file_path))
                 elif self.hash_dict[hash] not in OD_file_hash.values():
-                    # MainWindow.my_signal.emit(file_path)
+                    message.set("Uploading...<br>" + file_path)
                     print(self._encrypt(file_path))
             except Exception as e:
                 print(e)
@@ -75,8 +81,10 @@ class Mover():
             hash = i[1]
             try:
                 if hash not in self.hash_dict.values():
+                    message.set("Deleting...<br>" + file_path)
                     os.remove(file_path)
                 elif get_key(self.hash_dict, hash) not in EOD_file_hash.values():
+                    message.set("Deleting...<br>" + file_path)
                     os.remove(file_path)
             except Exception as e:
                 print(e)
@@ -90,12 +98,18 @@ class Mover():
                 except Exception as e:
                     print(e)
 
+        # save config
+        with open("mover.pkl", "wb") as file:
+            pickle.dump(self, file)
+        message.set("Finished")
+
     def update_local_files(self):
         # preparation
         EOD_file_list, EOD_dir_list = get_content(self.EOD_path)
         EOD_file_hash = get_file_hash(EOD_file_list)
         OD_file_list, OD_dir_list = get_content(self.OD_path)
         OD_file_hash = get_file_hash(OD_file_list)
+        message = Message()
 
         # update EOD directories
         for OD_dir in OD_dir_list:
@@ -109,6 +123,7 @@ class Mover():
             hash = i[1]
             try:
                 if get_key(self.hash_dict, hash) not in EOD_file_hash.values():
+                    message.set("Downloading...<br>" + file_path)
                     print(self._decrypt(file_path))
             except Exception as e:
                 print(e)
@@ -119,8 +134,10 @@ class Mover():
             hash = i[1]
             try:
                 if hash not in self.hash_dict.keys():
+                    message.set("Deleting...<br>" + file_path)
                     os.remove(file_path)
                 elif self.hash_dict[hash] not in OD_file_hash.values():
+                    message.set("Deleting...<br>" + file_path)
                     os.remove(file_path)
             except Exception as e:
                 print(e)
@@ -130,6 +147,11 @@ class Mover():
             OD_dir = EOD_dir.replace(self.EOD_path, self.OD_path)
             if not os.path.exists(OD_dir):
                 shutil.rmtree(EOD_dir)
+
+        # save config
+        with open("mover.pkl", "wb") as file:
+            pickle.dump(self, file)
+        message.set("Finished")
 
     def open_folder(self):
         os.system("start explorer %s" % self.EOD_path)

@@ -1,24 +1,28 @@
 from Mover import *
-from UI import *
+from UI.Main_window import *
+from UI.Login_window import Login
 
 if __name__ == '__main__':
     if is_admin():
+        app = QApplication(sys.argv)
+        mover = Mover()
+        login = Login()
+        window = Window()
+        t1 = Thread(mover.update_online_files)
+        t1.sig.connect(window.set_text)
+        t2 = Thread(mover.update_local_files)
+        t2.sig.connect(window.set_text)
+        window.pushButton.clicked.connect(t1.start)
+        window.pushButton_2.clicked.connect(t2.start)
+        window.pushButton_3.clicked.connect(mover.open_folder)
+        login.pushButton_2.clicked.connect(lambda: get_mover(login, mover, window))
+
         if os.path.exists("mover.pkl"):
             with open("mover.pkl", "rb") as file:
                 mover = pickle.load(file)
+            window.show()
         else:
-            mover = Mover("OneDrive - whu.edu.cn", input("Set the password:"))
-
-        app = QApplication(sys.argv)
-        window = Window()
-        window.pushButton.clicked.connect(lambda: mover.update_online_files())
-        window.pushButton_2.clicked.connect(lambda: mover.update_local_files())
-        window.pushButton_3.clicked.connect(lambda: mover.open_folder())
-        window.textBrowser.setText("Ready")
-        window.show()
-
-        with open("mover.pkl", "wb") as file:
-            pickle.dump(mover, file)
+            login.show()
 
         sys.exit(app.exec_())
     else:
