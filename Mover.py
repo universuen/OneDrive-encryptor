@@ -2,7 +2,9 @@ from utilities import *
 
 
 class Mover():
-    def __init__(self, OD_name, password='000000'):
+    def __init__(self, OD_name, password):
+        if password == '':
+            password = '000000'
         self.EOD_path, self.OD_path = make_dir(OD_name)
         self.password = password
         self.hash_dict = {}

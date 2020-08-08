@@ -45,6 +45,9 @@ def make_dir(OD_name):
     """
     username = getpass.getuser()
     OD_path = "C:\\Users\\" + username + "\\" + OD_name
+    if not os.path.exists(OD_path):
+        print("Wrong folder name, check and input again.")
+        exit()
     EOD_path = "C:\\Users\\" + username + "\\E-OneDrive"
     if not os.path.exists(EOD_path):
         os.makedirs(EOD_path)
@@ -52,6 +55,12 @@ def make_dir(OD_name):
 
 
 def get_key(dict, value):
+    """
+    Get the first key of the given value in the given dictionary
+    :param dict:dict
+    :param value:str
+    :return:str
+    """
     for item in dict.items():
         if item[1] == value:
             return item[0]
