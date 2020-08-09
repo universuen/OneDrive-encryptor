@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ODE.ui'
+# Form implementation generated from reading ui file 'UI\ODE.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.0
 #
@@ -14,14 +14,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(401, 331)
+        MainWindow.resize(401, 351)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
-        MainWindow.setMinimumSize(QtCore.QSize(401, 331))
-        MainWindow.setMaximumSize(QtCore.QSize(401, 331))
+        MainWindow.setMinimumSize(QtCore.QSize(401, 351))
+        MainWindow.setMaximumSize(QtCore.QSize(401, 351))
         MainWindow.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -81,6 +81,12 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         self.textBrowser.setFont(font)
         self.textBrowser.setObjectName("textBrowser")
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setGeometry(QtCore.QRect(40, 290, 321, 31))
+        font = QtGui.QFont()
+        font.setFamily("Microsoft YaHei UI")
+        self.label_2.setFont(font)
+        self.label_2.setObjectName("label_2")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 401, 25))
@@ -102,3 +108,4 @@ class Ui_MainWindow(object):
         self.pushButton_2.setToolTip(_translate("MainWindow", "Download and decrypt files from OneDrive"))
         self.pushButton_2.setText(_translate("MainWindow", "Download"))
         self.label.setText(_translate("MainWindow", "Status:"))
+        self.label_2.setText(_translate("MainWindow", "github.com/whusober/OneDrive-encryptor"))

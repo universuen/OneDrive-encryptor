@@ -1,14 +1,13 @@
 from utilities import *
 
-
 class Mover():
 
     def __init__(self, OD_name="OneDrive", password="000000"):
         if password == '':
             password = '000000'
         self.OD_name = OD_name
-        self.EOD_path = None
-        self.OD_path = None
+        # self.EOD_path = None
+        # self.OD_path = None
         self.password = password
         self.hash_dict = {}
 
@@ -99,8 +98,7 @@ class Mover():
                     print(e)
 
         # save config
-        with open("mover.pkl", "wb") as file:
-            pickle.dump(self, file)
+        self.save_config()
         message.set("Finished")
 
     def update_local_files(self):
@@ -149,9 +147,12 @@ class Mover():
                 shutil.rmtree(EOD_dir)
 
         # save config
-        with open("mover.pkl", "wb") as file:
-            pickle.dump(self, file)
+        self.save_config()
         message.set("Finished")
 
     def open_folder(self):
         os.system("start explorer %s" % self.EOD_path)
+
+    def save_config(self):
+        with open("mover.pkl", "wb") as file:
+            pickle.dump(self, file)

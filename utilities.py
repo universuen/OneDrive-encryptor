@@ -5,6 +5,17 @@ import shutil
 from hashlib import sha1
 import ctypes, sys
 import time
+from PyQt5.QtWidgets import QMessageBox
+
+
+class Message():
+    message = ["Ready"]
+
+    def set(self, text):
+        self.message[0] = text
+
+    def get(self):
+        return self.message[0]
 
 
 def get_content(path):
@@ -74,21 +85,11 @@ def is_admin():
     except:
         return False
 
-def get_mover(login, mover, window):
+
+def get_mover(login, mover):
     mover.OD_name = login.name
     mover.password = login.lineEdit.text()
     mover.make_dir()
-    window.show()
+    mover.save_config()
+    QMessageBox.information(login, "Attention", "Configure file saved successfully!<br>Please restart the program.")
     login.close()
-
-class Message():
-
-    message = ["Ready"]
-
-    def set(self, text):
-        self.message[0] = text
-
-    def get(self):
-        return self.message[0]
-
-
