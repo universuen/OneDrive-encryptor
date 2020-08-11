@@ -3,7 +3,7 @@ from utilities import *
 class Mover():
 
     def __init__(self, OD_name="OneDrive", password="000000"):
-        if password == '':
+        if len(password) == 0:
             password = '000000'
         self.OD_name = OD_name
         # self.EOD_path = None
@@ -48,13 +48,15 @@ class Mover():
 
     def update_online_files(self):
         # preparation
+        message = Message()
+        message.set("Preparing for upload...")
         EOD_file_list, EOD_dir_list = get_content(self.EOD_path)
         EOD_file_hash = get_file_hash(EOD_file_list)
         OD_file_list, OD_dir_list = get_content(self.OD_path)
         OD_file_hash = get_file_hash(OD_file_list)
-        message = Message()
 
         # update OD directories
+        message.set("Making directories...")
         for EOD_dir in EOD_dir_list:
             OD_dir = EOD_dir.replace(self.EOD_path, self.OD_path)
             if not os.path.exists(OD_dir):
@@ -89,6 +91,7 @@ class Mover():
                 print(e)
 
         # delete extra OD dirs
+        message.set("Deleting extra directories...")
         for OD_dir in OD_dir_list:
             EOD_dir = OD_dir.replace(self.OD_path, self.EOD_path)
             if not os.path.exists(EOD_dir):
@@ -99,17 +102,19 @@ class Mover():
 
         # save config
         self.save_config()
-        message.set("Finished")
+        message.set("Upload Finished")
 
     def update_local_files(self):
         # preparation
+        message = Message()
+        message.set("Preparing for download...")
         EOD_file_list, EOD_dir_list = get_content(self.EOD_path)
         EOD_file_hash = get_file_hash(EOD_file_list)
         OD_file_list, OD_dir_list = get_content(self.OD_path)
         OD_file_hash = get_file_hash(OD_file_list)
-        message = Message()
 
         # update EOD directories
+        message.set("Making directories...")
         for OD_dir in OD_dir_list:
             EOD_dir = OD_dir.replace(self.OD_path, self.EOD_path)
             if not os.path.exists(EOD_dir):
@@ -141,6 +146,7 @@ class Mover():
                 print(e)
 
         # delete extra EOD dirs
+        message.set("Deleting extra directories...")
         for EOD_dir in EOD_dir_list:
             OD_dir = EOD_dir.replace(self.EOD_path, self.OD_path)
             if not os.path.exists(OD_dir):
@@ -148,11 +154,11 @@ class Mover():
 
         # save config
         self.save_config()
-        message.set("Finished")
+        message.set("Download Finished")
 
     def open_folder(self):
         os.system("start explorer %s" % self.EOD_path)
 
     def save_config(self):
-        with open("mover.pkl", "wb") as file:
+        with open("config.pkl", "wb") as file:
             pickle.dump(self, file)

@@ -9,8 +9,8 @@ if __name__ == '__main__':
     if is_admin():
         app = QApplication(sys.argv)
 
-        if os.path.exists("mover.pkl"):
-            with open("mover.pkl", "rb") as file:
+        if os.path.exists("config.pkl"):
+            with open("config.pkl", "rb") as file:
                 mover = pickle.load(file)
             window = Window()
             t1 = Thread(mover.update_online_files)
